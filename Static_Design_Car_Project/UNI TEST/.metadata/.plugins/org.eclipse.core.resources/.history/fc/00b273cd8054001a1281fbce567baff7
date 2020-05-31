@@ -1,0 +1,88 @@
+/*
+ * Motor_Test.c
+ *
+ *  Created on: Feb 21, 2020
+ *      Author: Khaled
+ */
+
+
+#include <stdio.h>
+#include "Common_Macros.h"
+#include "DIO.h"
+#include "motor.h"
+#include "PWM.h"
+#include "std_types.h"
+
+
+#define RESULT_INITIAL_VALUE 5;
+
+
+void Motor_Init_Test (void);
+
+uint8_t gu8_PWM_Init_Return = E_OK;
+uint8_t gu8_DIO_Init_Return = E_OK;
+
+int main (void)
+{
+
+	//line to correct error in IDE related to printf and scanf functions
+	setvbuf(stdout,NULL,_IONBF,0);
+
+	Motor_Init_Test();
+
+	return 0;
+}
+
+void Motor_Init_Test (void)
+{
+	uint8_t au8_TestNumber = ZERO;
+	uint8_t au8_Result = RESULT_INITIAL_VALUE;
+
+
+	printf("Please enter test number: ");
+
+	scanf("%d",&au8_TestNumber);
+
+	switch (au8_TestNumber)
+	{
+	case 1:
+
+		gu8_PWM_Init_Return = E_OK;
+		gu8_DIO_Init_Return = E_OK;
+		au8_Result = Motor_Init(MOTOR_1);
+		printf("The expected output is 0  and the actual output is %d", au8_Result);
+		break;
+
+	case 2:
+
+		gu8_PWM_Init_Return = E_OK;
+		gu8_DIO_Init_Return = E_OK;
+		au8_Result = Motor_Init(MOTOR_2);
+		printf("The expected output is 0  and the actual output is %d", au8_Result);
+		break;
+
+	case 3:
+
+		gu8_PWM_Init_Return = E_OK;
+		gu8_DIO_Init_Return = E_OK;
+		au8_Result = Motor_Init(3);
+		printf("The expected output is 1  and the actual output is %d", au8_Result);
+		break;
+
+	case 4:
+
+		gu8_PWM_Init_Return = E_OK;
+		gu8_DIO_Init_Return = E_OK;
+		au8_Result = Motor_Init(0);
+		printf("The expected output is 1  and the actual output is %d", au8_Result);
+		break;
+
+
+	default:
+		printf("invalid test number");
+		break;
+	}
+
+
+}
+

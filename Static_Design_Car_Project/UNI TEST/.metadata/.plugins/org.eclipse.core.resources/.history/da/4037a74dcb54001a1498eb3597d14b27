@@ -1,0 +1,186 @@
+/*
+ * motor.c
+ *
+ * Created: 2/15/2020 6:59:38 PM
+ *  Author: Khaled
+ */ 
+
+ #include "motor.h"
+
+ 
+ ERROR_STATUS Motor_Init(uint8_t Motor_Number)
+ {
+    DIO_Cfg_s Motor_Info;
+
+	 Pwm_Cfg_s PWM_Info;
+	 /*variable to store errors*/
+	 uint8_t Error = E_OK;
+
+    switch (Motor_Number)
+    {
+	    case MOTOR_1:
+		 /*set motor DIO direction pins*/
+		 Motor_Info.GPIO = MOTOR_EN_1_GPIO;
+
+		 Motor_Info.pins = MOTOR_EN_1_BIT|MOTOR_OUT_1A_BIT|MOTOR_OUT_1B_BIT;
+
+		 Motor_Info.dir = OUTPUT;
+		 /*initialize PWM motor channel*/
+		 PWM_Info.Channel = PWM_CH1A;
+
+		 PWM_Info.Prescaler = PRESCALER_8;
+		 break;
+
+	    case MOTOR_2:
+		 /*set motor DIO direction pins*/
+	    Motor_Info.GPIO = MOTOR_EN_2_GPIO;
+
+		 Motor_Info.pins = MOTOR_EN_2_BIT|MOTOR_OUT_2A_BIT|MOTOR_OUT_2B_BIT;
+
+		 Motor_Info.dir = OUTPUT;
+		 /*initialize PWM motor channel*/
+		 PWM_Info.Channel = PWM_CH1B;
+
+		 PWM_Info.Prescaler = PRESCALER_8;
+		 break;
+
+		 default:
+		 Error |= E_NOK;
+		 break;
+    }
+
+	 Error |= DIO_init(& Motor_Info);
+
+	 Error |= Pwm_Init(&PWM_Info);
+
+	 return Error;
+ }
+
+
+ ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
+ {
+    /*variable to store errors*/
+	 uint8_t Error = E_OK;
+
+	 switch (Motor_Number)
+    {
+	    case MOTOR_1:
+	    switch(Motor_Direction)
+	    {  case MOTOR_STOP:
+		    Error |= DIO_Write(MOTOR_EN_1_GPIO,(MOTOR_OUT_1A_BIT|MOTOR_OUT_1B_BIT),LOW);
+			 break;
+
+		    case MOTOR_FORWARD:
+		    Error |= DIO_Write(MOTOR_EN_1_GPIO,(MOTOR_OUT_1A_BIT),HIGH);
+		    Error |= DIO_Write(MOTOR_EN_1_GPIO,(MOTOR_OUT_1B_BIT),LOW);
+		    break;
+
+		    case MOTOR_BACKWARD:
+		    Error |= DIO_Write(MOTOR_EN_1_GPIO,(MOTOR_OUT_1A_BIT),LOW);
+		    Error |= DIO_Write(MOTOR_EN_1_GPIO,(MOTOR_OUT_1B_BIT),HIGH);
+		    break;
+
+			 default:
+			 Error |= E_NOK;
+			 break;
+	    }
+	    break;
+
+	    case MOTOR_2:
+	    switch(Motor_Direction)
+	    {  case MOTOR_STOP:
+		    Error |= DIO_Write(MOTOR_EN_2_GPIO,(MOTOR_OUT_2A_BIT|MOTOR_OUT_2B_BIT),LOW);
+		    break;
+
+		    case MOTOR_FORWARD:
+		    Error |= DIO_Write(MOTOR_EN_2_GPIO,(MOTOR_OUT_2A_BIT),LOW);
+		    Error |= DIO_Write(MOTOR_EN_2_GPIO,(MOTOR_OUT_2B_BIT),HIGH);
+		    break;
+
+		    case MOTOR_BACKWARD:
+			 Error |= DIO_Write(MOTOR_EN_2_GPIO,(MOTOR_OUT_2A_BIT),HIGH);
+			 Error |= DIO_Write(MOTOR_EN_2_GPIO,(MOTOR_OUT_2B_BIT),LOW);
+		    break;
+
+			 default:
+			 Error |= E_NOK;
+			 break;
+	    }
+	    break;
+
+		 default:
+		 Error |= E_NOK;
+		 break;
+    }
+
+	 return Error;
+ }
+
+
+ ERROR_STATUS Motor_Start(uint8_t Motor_Number, uint8_t Mot_Speed)
+ {
+    /*variable to store errors*/
+	 uint8_t Error = E_OK;
+	 switch (Motor_Number)
+	 {
+	    case MOTOR_1:
+		 Error |= Pwm_Start(PWM_CH1A, Mot_Speed, PWM_FREQUENCY_100);
+		 break;
+
+		 case MOTOR_2:
+		 Error |= Pwm_Start(PWM_CH1B, Mot_Speed, PWM_FREQUENCY_100);
+		 break;
+
+		 default:
+		 Error |= E_NOK;
+		 break;
+	 }
+	 return Error;
+ }
+
+
+// ERROR_STATUS Motor_SpeedUpdate(uint8_t Motor_Number, uint8_t Speed)
+// {
+//    /*variable to store errors*/
+//	 uint8_t Error = E_OK;
+//    switch (Motor_Number)
+//    {
+//	    case MOTOR_1:
+//	    Error |= Pwm_Start(PWM_CH1A, Speed, PWM_FREQUENCY_100);
+//	    break;
+//
+//	    case MOTOR_2:
+//	    Error |= Pwm_Start(PWM_CH1B, Speed, PWM_FREQUENCY_100);
+//	    break;
+//
+//	    default:
+//	    Error |= E_NOK;
+//	    break;
+//    }
+//
+//	 return Error;
+// }
+
+
+// ERROR_STATUS Motor_Stop(uint8_t Motor_Number)
+// {
+//    /*variable to store errors*/
+//	 uint8_t Error = E_OK;
+//
+//    switch (Motor_Number)
+//	 {
+//	    case MOTOR_1:
+//		 Error |= Pwm_Stop(PWM_CH1A);
+//		 break;
+//
+//		 case MOTOR_2:
+//		 Error |= Pwm_Stop(PWM_CH1B);
+//		 break;
+//
+//		 default:
+//		 Error |= E_NOK;
+//		 break;
+//	 }
+//
+//	 return Error;
+// }

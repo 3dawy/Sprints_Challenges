@@ -1,0 +1,101 @@
+
+
+
+
+Function: ERROR_STATUS Motor_Init(uint8_t Motor_Number)
+this function has 3 input one from the argument(Motor_Number(1or2)) and two from two functions DIO_Init and PWM_Init which return E_OK or E_NOK
+this function has one output which is the return which represents the error 
+During this test, I try to cover all scenario test the error return efficiency and here are the cases and the results
+CASE                       INPUTS                        EXPECTED OUTPUT              RESULT
+
+           Motor_Number   Dio_Init   PWM_Init              Error_Status
+1               1            ok         ok                      ok                     pass
+2               2            ok         ok                      ok                     pass
+3               0            ok         ok                      Nok                    pass
+4               3            ok         ok                      Nok                    pass
+5               1            Nok        ok                      Nok                    pass
+6               2            Nok        ok                      Nok                    pass
+7               1            ok         Nok                     Nok                    pass
+8               2            ok         Nok                     Nok                    pass
+9               0            Nok        ok                      Nok                    pass
+10              3            Nok        ok                      Nok                    pass
+11              0            ok         Nok                     Nok                    pass
+12              3            ok         Nok                     Nok                    pass
+13              1            Nok        Nok                     Nok                    pass
+14              2            Nok        Nok                     Nok                    pass
+15              0            Nok        Nok                     Nok                    pass
+16              3            Nok        Nok                     Nok                    pass
+
+
+/********************************************************************************************************************************/
+
+
+Function: ERROR_STATUS Motor_Direction(uint8_t Motor_Number, uint8_t Motor_Direction)
+this function has 3 input TWO from the argument(Motor_Number(1or2) and Motor_Direction(Forward,backward and stop)) and one from function DIO_Write which returns E_OK or E_NOK
+this function has one output which is the return which represents the error 
+During this test, I try to cover all scenario test the error return efficiency and here are the cases and the results
+CASE                       INPUTS                                 EXPECTED OUTPUT              RESULT
+           Motor_Number   Motor_Direction   DIO_Write              Error_Status
+1               1             stop             ok                       ok                      pass
+2               2             stop             ok                       ok                      pass
+3               1           backward           ok                       ok                      pass
+4               2           forward            ok                       ok                      pass
+5               1           forward            Nok                      Nok                     pass
+6               2             stop             Nok                      Nok                     pass
+7               1           backward           Nok                      Nok                     pass
+8               1               3              ok                       Nok                     pass
+9               2              -1              Nok                      Nok                     pass
+10              1               3              Nok                      Nok                     pass
+11              2              -1              Nok                      Nok                     pass
+12              1              -1              ok                       Nok                     pass
+13              3           forward            ok                       Nok                     pass
+14              0           backward           ok                       Nok                     pass
+15              -1            stop             ok                       Nok                     pass
+16              0           forward            Nok                      Nok                     pass
+17              3           backward           Nok                      Nok                     pass
+18              -1              3              ok                       Nok                     pass
+19              3              -1              ok                       Nok                     pass
+20              3               3              Nok                      Nok                     pass
+21              -1             -1              Nok                      Nok                     pass
+
+
+/******************************************************************************************************************************/
+
+
+
+
+Function: ERROR_STATUS Motor_Start(uint8_t Motor_Number, uint8_t Mot_Speed)
+this function has 3 input TWO from the argument(Motor_Number(1or2) and Motor_sPEED(0 : 100)) and one from function PWM_Start which returns E_OK or E_NOK
+this function has one output which is the return which represents the error 
+During this test, I try to cover all scenario test the error return efficiency and here are the cases and the results
+CASE                         INPUTS                                 EXPECTED OUTPUT              RESULT
+           Motor_Number   Motor_Speed   PWM_Start                    Error_Status
+1               1             30          ok                             ok                      pass
+2               1             0           ok                             ok                      pass
+3               1             100         ok                             ok                      pass
+4               2             0           ok                             ok                      pass
+5               2             100         ok                             ok                      pass
+6               2             40          ok                             ok                      pass
+7               1             0           Nok                            Nok                     pass
+8               1             100         Nok                            Nok                     pass
+9               2             0           Nok                            Nok                     pass
+10              2             100         Nok                            Nok                     pass
+11              1             -1          ok                             Nok                     pass
+12              1             101         ok                             Nok                     pass
+13              1             150         ok                             Nok                     pass
+14              2             -1          ok                             Nok                     pass
+15              2             101         ok                             Nok                     pass
+16              2             200         ok                             Nok                     pass
+17              1             -1          Nok                            Nok                     pass
+18              1             101         Nok                            Nok                     pass
+19              2             -1          Nok                            Nok                     pass
+20              2             101         Nok                            Nok                     pass
+21              -1            0           ok                             Nok                     pass
+22              3             100         ok                             Nok                     pass
+23              -1            0           Nok                            Nok                     pass
+24              3             100         Nok                            Nok                     pass
+25              -1            -1          ok                             Nok                     pass
+26              3             101         ok                             Nok                     pass
+27              -1            101         ok                             Nok                     pass
+28              3             -1          Nok                            Nok                     pass
+29              -1            101         Nok                            Nok                     pass
