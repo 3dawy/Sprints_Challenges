@@ -55,7 +55,7 @@ typedef struct
 /**********************************************************/
 #define NUM_OF_CHANNELS                                     8
 #define NUM_OF_PORTS 6
-																			   
+
 #define CFG_ST_COUNTER_INITIAL_VALUE                        0
 #define TEMP_VALUE_INITIAL_VALUE                            0 
 
@@ -64,7 +64,7 @@ typedef struct
 #define BASE_ADDRESS_C                                      0x40006000
 #define BASE_ADDRESS_D                                      0x40007000
 #define BASE_ADDRESS_E                                      0x40024000
-#define BASE_ADDRESS_F                                      0x4005D000
+#define BASE_ADDRESS_F                                      0x40025000
 
 #define EXT_INTERRUPT_DETECT_FACTOR                         10
 #define EXT_INTERRUPT_LEVEL_DETECT                          2
@@ -114,9 +114,11 @@ void PortDriver_init (void)
          * GPIOLOCK reg protect some other gpio register from undesired access so to access this register unlock this register first (0x4C4F434B: UNLOCK, other value: LOCK)
          * GPIODIR reg bits 0:7, each bit represent pin commitment level  (0:UNCOMMITTED,  1:COMMITTED)
          */
+        au32_TempValue = ( 1 << au8_ChannelOffset ); /*calculate commitment mask*/
+
         (*U32ARR_BaseAddrArr[au8_PortNum]).GPIOLOCK = GPIO_UNLOCK_VALUE ; /*unlock gpio registers*/
 
-        au32_TempValue = ( 1 << au8_ChannelOffset ); /*calculate commitment mask*/
+
         (*U32ARR_BaseAddrArr[au8_PortNum]).GPIOCR |= au32_TempValue; /*enable commitment level to proper pin*/
 
 
@@ -156,6 +158,7 @@ void PortDriver_init (void)
         else if (ANALOG_FUNCTION_VALUE == PortDriver_CfgArr[au8_CfgStCounter].PortDriver_Channel_Function)
         {
             au32_TempValue = ( 1 << au8_ChannelOffset ); /*calculate pin ANALOG mask*/
+            (*U32ARR_BaseAddrArr[au8_PortNum]).GPIOAFSEL |= au32_TempValue; /*store pin ADC function value in the proper bit in proper GPIOAFSEL*/
             (*U32ARR_BaseAddrArr[au8_PortNum]).GPIOAMSEL |= au32_TempValue; /*enable analog pin configuration */
         }
         /*if the pin function is DIGITAL ALTERNATIVE*/

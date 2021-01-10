@@ -9,8 +9,10 @@
 #ifndef DIO_H_
 #define DIO_H_
 
-#include "Common_Macros.h"
-#include "std_types.h"
+#include "SERVICE/Common_Macros.h"
+#include "SERVICE/std_types.h"
+//#include <stdint.h>
+
 
 
 typedef uint8_t STD_levelType;
@@ -104,16 +106,12 @@ typedef uint8_t Dio_PortType;
 *					- PIN5
 *					- PIN6
 *					- PIN7
-*					- UPPER_NIBBLE
-*					- LOWER_NIBBLE
-*					- FULL_PORT
 *		value 	-> The desired value
 *					- HIGH
 *					- LOW
 *Output: No output
 *In/Out: No In/Out
-*Description: This function can set the value of a full port, a nibble
-* 			  or even one pin.
+*Description: This function can write the value of one pin.
 */
 void DIO_Write (Dio_ChannelType DIO_Channel, STD_levelType Level);
 
@@ -132,16 +130,11 @@ void DIO_Write (Dio_ChannelType DIO_Channel, STD_levelType Level);
 *					- PIN5
 *					- PIN6
 *					- PIN7
-*					- UPPER_NIBBLE
-*					- LOWER_NIBBLE
-*					- FULL_PORT
-*		value 	-> The desired value
+*Output:No output
+*In/Out: value-> pin value
 *					- HIGH
 *					- LOW
-*Output: data -> the acquired data wether it was PORT data or pins data
-*In/Out:
-*Description: This function gets the value of a full port, a nibble
-* 			  or even one pin.
+*Description: This function gets the value of one pin.
 */
 void DIO_Read (Dio_ChannelType DIO_Channel, STD_levelType *Level);
 
@@ -165,8 +158,7 @@ void DIO_Read (Dio_ChannelType DIO_Channel, STD_levelType *Level);
 *					- FULL_PORT
 *Output: data -> No output
 *In/Out:
-*Description: This function toggles the value of a full port, a nibble
-* 			  or even one pin.
+*Description: This function toggles the value of ne pin.
 */
 void DIO_Toggle (Dio_ChannelType DIO_Channel);
 
@@ -181,13 +173,12 @@ void DIO_Toggle (Dio_ChannelType DIO_Channel);
 *		value 	-> The desired value
 *Output: No output
 *In/Out: No In/Out
-*Description: This function can set the value of a full port, a nibble
-* 			  or even one pin.
+*Description: This function can write the value of a full port.
 */
-void DIO_Write_Port (Dio_PortType DIO_Channel, uint8_t Value);
+void DIO_Write_Port (Dio_PortType DIO_Port, uint8_t Value);
 
 
-void DIO_Read_Port (Dio_PortType DIO_Channel, uint8_t* Value);
+void DIO_Read_Port (Dio_PortType DIO_Port, uint8_t* Value);
 
 
 

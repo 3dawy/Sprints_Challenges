@@ -45,7 +45,7 @@ void DIO_Write (Dio_ChannelType DIO_Channel, STD_levelType Level)
     } 
     else if (STD_HIGE == Level)
     {
-        *U32ARR_DataAddrArr[au8_PortNum] |= au32_TempValue; /*set desired bit*/ 
+        *(U32ARR_DataAddrArr[au8_PortNum]) |= au32_TempValue; /*set desired bit*/
     }
     else
     {
@@ -88,12 +88,12 @@ void DIO_Toggle (Dio_ChannelType DIO_Channel)
 }
 
 
-void DIO_Write_Port (Dio_PortType DIO_Channel, uint8_t Value)
+void DIO_Write_Port (Dio_PortType DIO_Port, uint8_t Value)
 {
-    *U32ARR_DataAddrArr[DIO_Channel] = Value; /*store the value in the data register*/
+    *U32ARR_DataAddrArr[DIO_Port] = Value; /*store the value in the data register*/
 }
 
-void DIO_Read_Port (Dio_PortType DIO_Channel, uint8_t* Value)
+void DIO_Read_Port (Dio_PortType DIO_Port, uint8_t* Value)
 {
-    *Value = *U32ARR_DataAddrArr[DIO_Channel]; /*return data register value7*/
+    *Value = *U32ARR_DataAddrArr[DIO_Port]; /*return data register value7*/
 }

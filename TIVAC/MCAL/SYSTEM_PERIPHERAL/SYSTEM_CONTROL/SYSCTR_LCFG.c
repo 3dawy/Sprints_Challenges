@@ -10,14 +10,20 @@
 
 
 
-#define GPIO_RUN_NODE_CLOCK_GATE            0x608
-#define GPIO_PORTA                          0
-#define GPIO_PORTB                          1
-#define GPIO_PORTC                          2
-#define GPIO_PORTD                          3
-#define GPIO_PORTE                          4
-#define GPIO_PORTF                          5
+#define RCGC_GPIO                            0x608   //GPIO Peripheral
+#define GPIO_PORTA                          0       //GPIO Channel A
+#define GPIO_PORTB                          1       //GPIO Channel B
+#define GPIO_PORTC                          2       //GPIO Channel C       
+#define GPIO_PORTD                          3       //GPIO Channel D
+#define GPIO_PORTE                          4       //GPIO Channel E
+#define GPIO_PORTF                          5       //GPIO Channel F
+
+#define RCGC_ADC                             0x638   //ADC Peripheral
+#define ADC_Module_0                        0       //ADC Channel 0
+#define ADC_Module_1                        1       //ADC Channel 1
 
 
+SYSCL_Type garrstr_SYSCTR_Cfg[NUMBER_OF_PERIPHERALS]={
+                                                      {RCGC_GPIO, GPIO_PORTF}
 
-SYSCL_Type garrstr_SYSCTR_Cfg[NUMBER_OF_PERIPHERALS];
+                                                      };

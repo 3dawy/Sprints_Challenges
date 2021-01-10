@@ -9,8 +9,8 @@
 #ifndef PORTDRIVER_TYPES_H_
 #define PORTDRIVER_TYPES_H_
 
-#include "stdint.h"
-
+//#include "stdint.h"
+#include "SERVICE/std_types.h"
 
 //OK
 typedef uint8_t PortDriver_Channel_DirectionType;

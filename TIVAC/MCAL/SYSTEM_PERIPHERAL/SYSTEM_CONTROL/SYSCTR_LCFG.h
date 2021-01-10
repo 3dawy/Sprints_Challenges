@@ -9,10 +9,10 @@
 #ifndef SYSCTR_LCFG_H_
 #define SYSCTR_LCFG_H_
 
-#include "stdint.h"
+//#include "stdint.h"
+#include "SERVICE/std_types.h"
 
-
-#define NUMBER_OF_PERIPHERALS                   5
+#define NUMBER_OF_PERIPHERALS                   1
 
 typedef struct
 {

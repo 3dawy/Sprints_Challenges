@@ -11,7 +11,8 @@
 
 #include "SYSCTR_CFG.h"
 #include "SYSCTR_LCFG.h"
-#include "stdint.h"
+//#include "stdint.h"
+#include "SERVICE/std_types.h"
 //#include "tm4c123gh6pmRegisters.h"
 //#include "Processor.h"
 
