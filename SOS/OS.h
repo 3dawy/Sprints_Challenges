@@ -67,7 +67,7 @@ extern ERROR_STATUS OS_RUN(void);
 * Reentrancy	   : Reentrant
 * Description     : stop OS for a specific task
 *****************************************************************************/
-extern ERROR_STATUS Task_Delet(uint8_t Task_Id, void(* Ptr_Func)(void));
+extern  ERROR_STATUS Task_Delet(uint8_t priorty, void(* Ptr_Func)(void));
 
 /******************************************************************************
 * Function        : ERROR_STATUS OS_Start (uint16_t Time_Delay,uint8_t Task_Id, uint8_t Repeat, void(* Ptr_Func)(void));

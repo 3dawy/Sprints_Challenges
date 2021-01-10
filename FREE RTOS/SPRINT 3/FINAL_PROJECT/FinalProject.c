@@ -36,7 +36,7 @@ static uint8_t gu8_ReceiveCounter =  RECEIVE_COUNTER_INITIAL_VALUE;
 /*** API IMPELEMNTATION ***/
 void FinalProject (void)
 {
-    xTaskCreate (SystemInitTask, "R",100, NULL, 4,&SystemInitTaskHAndle); /*initiate system task*/
+    xTaskCreate (SystemInitTask, "I",100, NULL, 4,&SystemInitTaskHAndle); /*initiate system task*/
 
     xTaskCreate (TransmitTask, "T", 300, NULL, 2,&TransmitTaskHAndle); /*transmit task*/
 
@@ -124,7 +124,7 @@ void TransmitTask (void *pvParameters)
         
         pushButtonGetStatus(BTN_1,&au8_PBStatus); /*get the push button status*/
         
-        /*check if the push button is pressed and the thier is data ready from feypad*/
+        /*check if the push button is pressed and the thier is data ready from keypad*/
         if ((Pressed == au8_PBStatus) && (pdTRUE == xSemaphoreTake( SendDataSemaphoreHandle, ( TickType_t ) 1 )))
         {
             Led_On(LED_1);/*turn on the led*/

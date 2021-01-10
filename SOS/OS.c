@@ -35,12 +35,12 @@
   /* this struct is used to determine the characteristics of each task */
   typedef struct str_OSBuffer_t
   {
-	  uint8_t u8_Status;                  /* whether the task is used or not */
+	  uint8_t u8_Status;                /* whether the task is used or not */
 	  uint16_t u8_Delay_Time;           /* the wanted delay time */
 	  uint8_t u8_Repeat;                /* whether the task is repeated or one shot */
 	  void(* Ptr_Consumer)(void);       /* pointer to the consumer function */
 	  uint8_t u8_Pre_Flag;              /* count the time for consumer function until reach it's periodicity  */
-	  uint8_t u8_Task_Priority;               /* determine the Id for the consumer task */
+	  uint8_t u8_Task_Priority;         /* determine the priorty for the consumer task */
 	  
   }str_OSBuffer_t;
 
@@ -51,7 +51,7 @@
 /* create OS buffer to serve functions "array of structures"*/
 static str_OSBuffer_t arrstr_OS_Buffer [OS_BUFFER_SIZE];
 
-/* create global instance of str_FuncStatus_t  */
+/* create global instance of str_FuncStatus_t to motintor and moidfy module status */
 static str_FuncStatus_t  str_FuncStatus;
 
 /* to count elements in the OS buffer*/
@@ -213,7 +213,7 @@ void timer_cbk (void)
 	}
 	
 /* this function is used to stop a specific function */
- ERROR_STATUS Task_Delet(uint8_t Period, void(* Ptr_Func)(void))
+ ERROR_STATUS Task_Delet(uint8_t priorty, void(* Ptr_Func)(void))
 	{
 		uint8_t au8_Search_Loop_Counter = ZERO;
 		uint8_t Error = E_OK;
@@ -222,12 +222,12 @@ void timer_cbk (void)
 		{
 		    if (FALSE == Is_Buffer_Empty())
 		    {
-			    /* Search for about given task*/
+			    /* Search for the given task*/
 			    for (au8_Search_Loop_Counter = ZERO; au8_Search_Loop_Counter < OS_BUFFER_SIZE; au8_Search_Loop_Counter ++)
 			    {
 				    
 				    /*Check if this task is the desired to stop*/
-				    if ((Period == arrstr_OS_Buffer[au8_Search_Loop_Counter].u8_Task_Priority) && (Ptr_Func == arrstr_OS_Buffer[au8_Search_Loop_Counter].Ptr_Consumer))
+				    if ((priorty == arrstr_OS_Buffer[au8_Search_Loop_Counter].u8_Task_Priority) && (Ptr_Func == arrstr_OS_Buffer[au8_Search_Loop_Counter].Ptr_Consumer))
 				    {
 					    /*stop the task*/
 					    arrstr_OS_Buffer[au8_Search_Loop_Counter].u8_Status = NOT_USED;
@@ -256,7 +256,7 @@ void timer_cbk (void)
 		return Error;	
 	}
 
-/* this function is used to start a specific function */
+/* this function is used to create a specific function */
  ERROR_STATUS Task_Creat (uint16_t Time_Delay,uint8_t Task_Priorty, uint8_t Repeat, void(* Ptr_Func)(void))
   {
      /*variable for linear search algorithm*/
@@ -271,7 +271,7 @@ void timer_cbk (void)
 				   /*check if the given priorty available or not*/
 					if (arrstr_OS_Buffer[Task_Priorty].u8_Status == NOT_USED)
 					{
-					   /*Create struct for the new creator*/
+					   /*Create struct for the new task*/
 					   str_OSBuffer_t str_Buffer;
 					   str_Buffer.u8_Status = WATING;
 					   str_Buffer.u8_Delay_Time = Time_Delay;
@@ -280,7 +280,7 @@ void timer_cbk (void)
 					   str_Buffer.u8_Pre_Flag = 1;
 					   str_Buffer.u8_Task_Priority = Task_Priorty;
 					   
-					   /*Insert the created struct for the new creator in the OS buffer*/
+					   /*Insert the created struct for the new task in the OS buffer*/
 					   arrstr_OS_Buffer[Task_Priorty] = str_Buffer;
 
 						/*if the buffer empty start the timer */
