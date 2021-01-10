@@ -317,9 +317,7 @@ void PortDriver_init (void)
         (*U32ARR_BaseAddrArr[au8_PortNum]).GPIOCR &= ~(au32_TempValue); /*disable commitment level to proper pin*/
         
         (*U32ARR_BaseAddrArr[au8_PortNum]).GPIOLOCK = GPIO_LOCK_VALUE ; /*lock gpio registers*/
-        
-        
-   
+
     }
     
 
